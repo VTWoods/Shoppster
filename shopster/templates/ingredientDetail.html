@@ -1,0 +1,18 @@
+{% extends 'jqm/main.html' %}
+{% block jqmheader %}
+<div data-role="header">
+  <a data-ajax="false" href="/food/" data-icon="home" data-iconpos="notext">Home</a>
+  <h1>{{ ingredient.food.name }}</h1>
+</div><!-- /header -->
+{% endblock %}
+{% block jqmcontent %}
+<div data-role="content">
+  <form method="post" action="{% url food.views.ingredient_update ingredient.id %}">
+    {% csrf_token %}
+    <label for="basic">Amount:</label>
+    <input type="text" name="amount_field" id="amount_field" data-mini="true" value="{{ ingredient.get_amount_raw }}" />
+    {{ formset }}
+    <input type="submit" value="Save" />
+</form>
+</div>
+{% endblock %}

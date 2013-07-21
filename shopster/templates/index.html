@@ -1,0 +1,28 @@
+{% extends 'jqm/main.html' %}
+{% block jqmheader %}
+  <h1>Shopster</h1>
+{% endblock %}
+{% block jqmcontent %}
+<div data-role="content">
+  <h1>Recent Shopping List</h1>
+  {% if latest_shop_list %}
+    <ul data-role="listview">
+    {% for shop_list in latest_shop_list %}
+        <li><a data-ajax="false" href="/food/shoplist/{{ shop_list.id }}/">{{ shop_list.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No recipes are available.</p>
+{% endif %}
+<h1>Recent Recipe List</h1>
+{% if latest_recipe_list %}
+    <ul data-role="listview" >
+    {% for recipe in latest_recipe_list %}
+        <li><a data-ajax="false" href="/food/recipe/{{ recipe.id }}/">{{ recipe.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No recipes are available.</p>
+{% endif %}
+</div>
+{% endblock %}

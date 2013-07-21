@@ -1,0 +1,44 @@
+{% extends 'jqm/main.html' %}
+{% block jqmheader %}
+  <h1>{{shoplist.name}}</h1>
+{% endblock %}
+{% block jqmcontent %}
+	<div data-role="content" id="shop-list-content">
+	  <ul data-role="listview" data-inset="true" id="neededList">
+	    {% for amount in shoplist.get_needed %}
+	    <li data-icon="false">
+	      <a data-ajax="false" value="{{amount.id}}" href="#" class="toggle">
+		{{ amount.get_amount_pretty|safe }} {{amount.measurement}} {{amount.food}}
+	      </a>
+	      {% endfor %}
+	  </ul>
+	  <h2>In Your Basket</h2>
+	  <ul data-role="listview" data-inset="true" id="shoppedList">
+	    {% for amount in shoplist.get_obtained %}
+	    <li data-icon="false"><a data-ajax="false" value="{{amount.id}}" href="#" class="toggle">
+		{{ amount.get_amount_pretty|safe }} {{amount.measurement}} {{amount.food}}</a></li>
+	    {% endfor %}
+	  </ul>
+	</div><!-- /content -->
+{% endblock %}
+{% block jqmscripts %}
+<script type="text/javascript">
+    $(document).bind("pageinit", function(){
+        $('.toggle').click(function(event) {
+	    var clicked = $(event.target);
+	    var amountId = clicked.attr('value');
+	    var ajaxUrl = '/food/amount/' + amountId + '/toggle';
+	    $.ajax(ajaxUrl);
+	    var li = $(event.target).parents('li');
+	    var listType = li.parents('ul');
+	    if ($('#neededList').is(listType)) {
+		li.appendTo($('#shoppedList'));
+	    } else {
+		li.appendTo($('#neededList'));
+	    }
+            $('#shoppedList').listview('refresh');
+            $('#neededList').listview('refresh');
+	});
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'jqm/main.html' %}
+{% block jqmheader %}
+  <h1>Shopster</h1>
+{% endblock %}
+{% block jqmcontent %}
+<div data-role="content">
+  <h1>{{ recipe.name }}</h1>
+  <ul data-role="listview" data-inset="true">
+    {% for ingredient in recipe.ingredient_set.all %}
+    <li><a href="{% url food.views.ingredient_detail ingredient.id %}">
+	{{ingredient.get_amount_pretty|safe}} {{ingredient.food}}
+    </a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
